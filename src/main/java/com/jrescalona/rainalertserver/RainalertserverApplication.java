@@ -4,10 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RainalertserverApplication {
-
+public class RainAlertServerApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(RainalertserverApplication.class, args);
+		SpringApplication.run(RainAlertServerApplication.class, args);
 	}
-
 }
