@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static com.jrescalona.rainalertserver.model.USState.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjectTest {
@@ -33,7 +34,7 @@ class ProjectTest {
     String addressLine1 = "1234 Five Six Ave.";
     String addressLine2 = "Apt. Seven";
     String city = "Eight Heights";
-    String state = "NY";
+    USState state = NY;
     String zip = "98765";
 
     Address projectAddress = new Address(

@@ -8,7 +8,7 @@ public class Address {
     private final String addressLine1;
     private final String addressLine2;
     private final String city;
-    private final String state;
+    private final USState state;
     private final String postalCode;
     private final Location location;
 
@@ -16,7 +16,7 @@ public class Address {
                    String addressLine1,
                    String addressLine2,
                    String city,
-                   String state,
+                   USState state,
                    String postalCode,
                    Location location) {
         this.id = id;
@@ -44,7 +44,7 @@ public class Address {
         return city;
     }
 
-    public String getState() {
+    public USState getState() {
         return state;
     }
 

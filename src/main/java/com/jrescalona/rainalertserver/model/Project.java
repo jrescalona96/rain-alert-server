@@ -3,7 +3,7 @@ package com.jrescalona.rainalertserver.model;
 import java.util.UUID;
 
 public class Project {
-    private final UUID id;
+    private UUID id;
     private final String name;
     private final String description;
     private final Address address;
@@ -17,6 +17,10 @@ public class Project {
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -33,7 +37,7 @@ public class Project {
 
     /**
      * Checks equality of field values
-     * @param project
+     * @param project Project
      * @return true if all fields are the same, false otherwise
      */
     public boolean equals(Project project) {

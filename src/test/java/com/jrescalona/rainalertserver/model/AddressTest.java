@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static com.jrescalona.rainalertserver.model.USState.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddressTest {
@@ -25,7 +26,7 @@ class AddressTest {
     String addressLine1 = "1234 Five Six Ave.";
     String addressLine2 = "Apt. 7";
     String city = "Eight Heights";
-    String state = "NY";
+    USState state = NY;
     String postalCode = "98765";
 
     UUID id = UUID.randomUUID();
@@ -37,7 +38,6 @@ class AddressTest {
             state,
             postalCode,
             locationGrid);;
-
     @Test
     void getId() {
         assertEquals(address.getId(), id);
@@ -89,7 +89,6 @@ class AddressTest {
                 state,
                 postalCode,
                 locationGrid);
-
         assertTrue(address.equals(otherAddress));
     }
 
@@ -113,7 +112,7 @@ class AddressTest {
                 "7834 Nowhere St.",
                 "Suite 1902",
                 "Los Angeles",
-                "CA",
+                CA,
                 "90045",
                 locationGrid);
         assertFalse(address.equals(otherAddress));

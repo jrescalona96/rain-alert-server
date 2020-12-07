@@ -10,12 +10,12 @@ public class Location {
     private final String longitude;
     private final String latitude;
 
-    public Location(UUID id, String gridId, String gridX, String gridY, String longtitude, String latitude) {
+    public Location(UUID id, String gridId, String gridX, String gridY, String longitude, String latitude) {
         this.id = id;
         this.gridId = gridId;
         this.gridX = gridX;
         this.gridY = gridY;
-        this.longitude = longtitude;
+        this.longitude = longitude;
         this.latitude = latitude;
     }
 
