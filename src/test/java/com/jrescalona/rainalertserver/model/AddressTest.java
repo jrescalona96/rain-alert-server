@@ -44,6 +44,13 @@ class AddressTest {
     }
 
     @Test
+    void setId() {
+        UUID expected = UUID.randomUUID();
+        address.setId(expected);
+        assertEquals(expected, address.getId());
+    }
+
+    @Test
     void getAddressLine1() {
         assertEquals(address.getAddressLine1(), addressLine1);
     }

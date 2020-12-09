@@ -18,6 +18,11 @@ public class ProjectsController {
         this.projectsService = projectsService;
     }
 
+    @PostMapping()
+    public void addProject(@RequestBody Project project) {
+        projectsService.addProject(project);
+    }
+
     @GetMapping
     public List<Project> getAllProjects() {
         return projectsService.getAllProjects();
@@ -27,6 +32,7 @@ public class ProjectsController {
     public Project getProjectById(@PathVariable("id") UUID id) {
         return projectsService.getProjectById(id);
     }
+
 
     @PostMapping(path = "{id}")
     public void updateProjectById(@PathVariable("id") UUID id, @RequestBody Project project) {

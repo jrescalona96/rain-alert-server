@@ -4,7 +4,8 @@ import java.util.UUID;
 
 public class Address {
 
-    private final UUID id;
+
+    private UUID id;
     private final String addressLine1;
     private final String addressLine2;
     private final String city;
@@ -30,6 +31,10 @@ public class Address {
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getAddressLine1() {

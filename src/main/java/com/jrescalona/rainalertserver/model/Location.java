@@ -3,7 +3,7 @@ package com.jrescalona.rainalertserver.model;
 import java.util.UUID;
 
 public class Location {
-    private final UUID id;
+    private UUID id;
     private final String gridId;
     private final String gridX;
     private final String gridY;
@@ -21,6 +21,10 @@ public class Location {
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getGridId() {

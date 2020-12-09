@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface IProjectsDoa {
     int insertProject(Project project);
-    int insertProject(UUID id, Project project);
-    Optional<Project> selectProjectById(UUID id);
+    int insertProject(UUID projectId, Project project);
+    Optional<Project> selectProjectById(UUID projectId);
     List<Project> selectAllProjects();
-    int updateProjectById(UUID id,Project project);
-    int deleteProjectById(UUID id);
+    int updateProjectById(UUID projectId,Project project);
+    int deleteProjectById(UUID projectId);
 }
