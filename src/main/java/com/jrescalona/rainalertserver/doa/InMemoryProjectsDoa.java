@@ -18,19 +18,6 @@ public class InMemoryProjectsDoa implements IProjectsDoa {
     }
 
     /**
-     * Creates a random UUID
-     * then inserts new project using UUID
-     * @param project Project
-     * @return 0
-     */
-    @Override
-    public int insertProject(Project project) {
-        UUID projectId = UUID.randomUUID();
-        insertProject(projectId, project);
-        return 0;
-    }
-
-    /**
      * Creates Ids for Address & Location
      * Appends project to projects
      * @param projectId UUID
