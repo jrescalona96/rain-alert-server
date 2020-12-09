@@ -1,5 +1,7 @@
 package com.jrescalona.rainalertserver.doa;
 
+import com.jrescalona.rainalertserver.model.Address;
+import com.jrescalona.rainalertserver.model.Location;
 import com.jrescalona.rainalertserver.model.Project;
 import org.springframework.stereotype.Repository;
 
@@ -8,10 +10,58 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("InMemoryProjects")
-public class InMemoryProjectsAccessService implements IProjectsDoa {
+import static com.jrescalona.rainalertserver.model.USState.CA;
+import static com.jrescalona.rainalertserver.model.USState.CO;
 
-    private final List<Project> DB = new ArrayList<>();
+@Repository("InMemoryProjects")
+public class InMemoryProjectsDoa implements IProjectsDoa {
+
+    // TESTING ONLY
+    Project p1 = new Project(
+            null,
+            "Project #1",
+            "This is project for testing.",
+            new Address(
+                    UUID.randomUUID(),
+                    "123 Testing St.",
+                    "Apt. 001",
+                    "Barstool",
+                    CA,
+                    "98654",
+                    new Location(
+                            UUID.randomUUID(),
+                            "LOX",
+                            "801",
+                            "45",
+                            "34.6758",
+                            "-117.3721" )));
+
+    Project p2 = new Project(
+            null,
+            "Project #2",
+            "This the second project for testing.",
+            new Address(
+                    UUID.randomUUID(),
+                    "456 Testing Ave.",
+                    "Apt. 002",
+                    "Table",
+                    CO,
+                    "98654",
+                    new Location(
+                            UUID.randomUUID(),
+                            "LOX",
+                            "801",
+                            "45",
+                            "34.6758",
+                            "-117.3721")));
+
+    private final List<Project> DB;
+
+    public InMemoryProjectsDoa() {
+        DB = new ArrayList<>();
+        insertProject(p1);
+        insertProject(p2);
+    }
 
     /**
      * Creates a random UUID
@@ -21,8 +71,8 @@ public class InMemoryProjectsAccessService implements IProjectsDoa {
      */
     @Override
     public int insertProject(Project project) {
-        UUID id = UUID.randomUUID();
-        insertProject(id, project);
+        UUID projectId = UUID.randomUUID();
+        insertProject(projectId, project);
         return 0;
     }
 
@@ -35,6 +85,7 @@ public class InMemoryProjectsAccessService implements IProjectsDoa {
     @Override
     public int insertProject(UUID id, Project project) {
         project.setId(id);
+        // updateAddress
         DB.add(project);
         return 0;
     }
@@ -78,7 +129,6 @@ public class InMemoryProjectsAccessService implements IProjectsDoa {
                 })
                 .orElse(1);
     }
-
 
     /**
      * Invokes selectProjectById()

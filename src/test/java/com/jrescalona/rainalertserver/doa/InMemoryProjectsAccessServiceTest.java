@@ -14,8 +14,7 @@ import static com.jrescalona.rainalertserver.model.USState.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryProjectsAccessServiceTest {
-
-    InMemoryProjectsAccessService repo;
+    InMemoryProjectsDoa repo;
     UUID p1ID = UUID.randomUUID();
     UUID p2ID = UUID.randomUUID();
     UUID randomId = UUID.randomUUID();
@@ -62,12 +61,12 @@ class InMemoryProjectsAccessServiceTest {
 
     @BeforeEach
     void setUp() {
-        repo = new InMemoryProjectsAccessService();
+        repo = new InMemoryProjectsDoa();
     }
 
     @Test
     void insertProjectWithNoUUIDShouldReturn1() {
-        repo = new InMemoryProjectsAccessService();
+        repo = new InMemoryProjectsDoa();
         int res = repo.insertProject(p1);
         assertEquals(0,res);
         assertNotNull(repo.selectProjectById(p1ID));
@@ -99,7 +98,7 @@ class InMemoryProjectsAccessServiceTest {
 
     @Test
     void insertProjectWithUUIDShouldReturn1() {
-        repo = new InMemoryProjectsAccessService();
+        repo = new InMemoryProjectsDoa();
         int res = repo.insertProject(p1ID, p1);
         assertEquals(0,res);
         assertNotNull(repo.selectProjectById(p1ID));
@@ -111,7 +110,6 @@ class InMemoryProjectsAccessServiceTest {
         List<Project> projects = repo.selectAllProjects();
         assertEquals(1, projects.size());
     }
-
 
     @Test
     void insertProjectWithUUIDShouldHaveTwoProjects() {
