@@ -1,14 +1,24 @@
 package com.jrescalona.rainalertserver.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
 public class Project {
     private UUID id;
+
+    @NotNull
     private final String name;
     private final String description;
+    @NotNull
     private final Address address;
 
-    public Project(UUID id, String name, String description, Address address) {
+    public Project(
+            @JsonProperty("projectId") UUID id,
+            @JsonProperty("projectName") String name,
+            @JsonProperty("projectDescription") String description,
+            @JsonProperty("projectAddress") Address address) {
         this.id = id;
         this.name = name;
         this.description = description;

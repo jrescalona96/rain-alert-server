@@ -1,0 +1,6 @@
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/rain_alert_db
+    username: postgres
+    password: dbfortesting
+    pool-size: 30
