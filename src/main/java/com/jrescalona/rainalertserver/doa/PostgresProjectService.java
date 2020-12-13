@@ -31,34 +31,30 @@ public class PostgresProjectService implements IProjectsDoa {
     }
 
     @Override
-    public List<Project> selectAllProjects() {
-        return null;
-    }
-
-    @Override
     public List<Project> selectProjectsByUserId(UUID userId) {
         String sql = "SELECT p.id as project_id," +
-                        "p.name," +
-                        "p.description," +
-                        "a.id as address_id," +
-                        "a.address_line1," +
-                        "a.address_line2," +
-                        "a.city," +
-                        "a.state," +
-                        "a.postal_code\n" +
-                    "FROM project p\n" +
-                    "JOIN address a\n" +
-                        "ON p.user_id = ? AND a.id = p.address_id";
+                    "p.name," +
+                    "p.description," +
+                    "a.id as address_id," +
+                    "a.address_line1," +
+                    "a.address_line2," +
+                    "a.city," +
+                    "a.state," +
+                    "a.postal_code\n" +
+                "FROM project p\n" +
+                "JOIN address a\n" +
+                    "ON p.user_id = ? AND a.id = p.address_id";
         return jdbcTemplate.query(sql, new ProjectMapper(), userId);
     }
 
     @Override
-    public int updateProjectById(UUID projectId, Project project) {
+    public int updateProjectById (UUID projectId, Project project){
         return 0;
     }
 
     @Override
-    public int deleteProjectById(UUID projectId) {
+    public int deleteProjectById (UUID projectId){
         return 0;
     }
+
 }

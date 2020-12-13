@@ -21,7 +21,7 @@ public interface IAddressDoa {
 
     int insertAddress(UUID id, Address address);
     Optional<Address> selectAddressById(UUID id);
-    List<Address> selectAllAddresses();
+    List<Address> selectAllAddressesByUserId(UUID id);
     int updateAddressById(UUID id, Address address);
     int deleteAddressById(UUID id);
 }

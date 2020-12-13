@@ -45,14 +45,6 @@ public class InMemoryProjectsDoa implements IProjectsDoa {
                  .findFirst();
     }
 
-    /**
-     * @return All projects
-     */
-    @Override
-    public List<Project> selectAllProjects() {
-        return DB;
-    }
-
     @Override
     public List<Project> selectProjectsByUserId(UUID userId) {
         return null;

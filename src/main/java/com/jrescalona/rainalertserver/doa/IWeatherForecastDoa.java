@@ -20,7 +20,7 @@ public interface IWeatherForecastDoa {
     }
     int insertWeatherForecast(UUID weatherForecastId, WeatherForecast weatherForecast);
     Optional<WeatherForecast> selectWeatherForecastById(UUID weatherForecastId);
-    List<WeatherForecast> selectAllWeatherForecasts();
+    List<WeatherForecast> selectAllWeatherForecastsByLocationId(UUID id);
     int updateWeatherForecastById(UUID weatherForecastId, WeatherForecast weatherForecast);
     int deleteWeatherForecastById(UUID weatherForecastId);
 }
