@@ -20,8 +20,8 @@ class ProjectTest {
     String gridId  = "LOX";
     String gridX = "432";
     String gridY = "10";
-    String longitude = "34.0589";
-    String latitude = "-117.8194";
+    double longitude = 34.0589;
+    double latitude = -117.8194;
 
     Location locationGrid = new Location(
             locationGridId,
@@ -34,7 +34,7 @@ class ProjectTest {
     String addressLine1 = "1234 Five Six Ave.";
     String addressLine2 = "Apt. Seven";
     String city = "Eight Heights";
-    USState state = NY;
+    String state = "NY";
     String zip = "98765";
 
     Address projectAddress = new Address(

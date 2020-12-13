@@ -12,8 +12,8 @@ class AddressTest {
     String gridId  = "LOX";
     String gridX = "432";
     String gridY = "10";
-    String longitude = "34.0589";
-    String latitude = "-117.8194";
+    double longitude = 34.0589;
+    double latitude = -117.8194;
     UUID locationGridId = UUID.randomUUID();
     Location locationGrid = new Location(
             locationGridId,
@@ -26,7 +26,7 @@ class AddressTest {
     String addressLine1 = "1234 Five Six Ave.";
     String addressLine2 = "Apt. 7";
     String city = "Eight Heights";
-    USState state = NY;
+    String state = "NY";
     String postalCode = "98765";
 
     UUID id = UUID.randomUUID();
@@ -119,7 +119,7 @@ class AddressTest {
                 "7834 Nowhere St.",
                 "Suite 1902",
                 "Los Angeles",
-                CA,
+                "CA",
                 "90045",
                 locationGrid);
         assertFalse(address.equals(otherAddress));

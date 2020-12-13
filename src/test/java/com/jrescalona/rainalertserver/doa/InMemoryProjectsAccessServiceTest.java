@@ -28,15 +28,15 @@ class InMemoryProjectsAccessServiceTest {
                     "123 Testing St.",
                     "Apt. 001",
                     "Barstool",
-                    CA,
+                    "CA",
                     "98654",
                     new Location(
                             UUID.randomUUID(),
                             "LOX",
                             "801",
                             "45",
-                            "34.6758",
-                            "-117.3721"
+                            34.6758,
+                            -117.3721
                     )));
 
     Project p2 = new Project(
@@ -48,15 +48,15 @@ class InMemoryProjectsAccessServiceTest {
                     "456 Testing Ave.",
                     "Apt. 002",
                     "Table",
-                    CO,
+                    "CO",
                     "98654",
                     new Location(
                             UUID.randomUUID(),
                             "LOX",
                             "801",
                             "45",
-                            "34.6758",
-                            "-117.3721"
+                            34.6758,
+                            -117.3721
                     )));
 
     @BeforeEach

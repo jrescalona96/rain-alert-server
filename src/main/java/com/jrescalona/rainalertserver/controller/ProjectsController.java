@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
 @RequestMapping("api/v1/projects")
+@RestController
 public class ProjectsController {
-    ProjectsService projectsService;
+    private final ProjectsService projectsService;
 
     @Autowired
     public ProjectsController(ProjectsService projectsService) {
         this.projectsService = projectsService;
     }
 
-    @PostMapping()
+    @PostMapping
     public void addProject(@RequestBody Project project) {
         projectsService.addProject(project);
     }
@@ -28,11 +28,16 @@ public class ProjectsController {
         return projectsService.getAllProjects();
     }
 
-    @GetMapping(path = "{id}")
-    public Project getProjectById(@PathVariable("id") UUID id) {
-        return projectsService.getProjectById(id);
-    }
+//    @GetMapping(path = "{projectId}")
+//    public Project getProjectById(@PathVariable("projectId") UUID id) {
+//        return projectsService.getProjectById(id);
+//    }
 
+    @GetMapping(path = "{userId}")
+    public List<Project> getAllProjectsById(@PathVariable("userId") UUID id) {
+        System.out.println(id.toString());
+        return projectsService.getAllProjectByUserId(id);
+    }
 
     @PostMapping(path = "{id}")
     public void updateProjectById(@PathVariable("id") UUID id, @RequestBody Project project) {

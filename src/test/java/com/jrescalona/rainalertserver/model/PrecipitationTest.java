@@ -10,7 +10,7 @@ class PrecipitationTest {
 
     @Test
     void getPercentage() {
-        assertEquals(precipitation.getPercentage(), 0.0);
+        assertEquals(precipitation.getPercentRainChance(), 0.0);
     }
 
     @Test
@@ -23,6 +23,7 @@ class PrecipitationTest {
         String s  = "Chance of 0.0% of about 100.0.";
         assertEquals(precipitation.toString(), s);
     }
+
 
     @Test
     void equalsSameParametersShouldReturnTrue() {
@@ -40,5 +41,19 @@ class PrecipitationTest {
     void equalsWithDiffPercentageShouldReturnFalse() {
         Precipitation other = new Precipitation(0.0, 50.0);
         assertFalse(precipitation.equals(other));
+    }
+
+    @Test
+    void setPercentRainChanceShouldSucceed() {
+        Precipitation p = new Precipitation(50,0.6);
+        p.setPercentRainChance(0.4);
+        assertEquals(0.4, p.getPercentRainChance());
+    }
+
+    @Test
+    void setQuantityShouldSucceed() {
+        Precipitation p = new Precipitation(50,0.6);
+        p.setQuantity(10.0);
+        assertEquals(10.0, p.getQuantity());
     }
 }

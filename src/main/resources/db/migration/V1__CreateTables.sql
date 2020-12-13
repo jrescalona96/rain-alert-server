@@ -1,8 +1,18 @@
+CREATE TABLE location(
+    id UUID NOT NULL PRIMARY KEY,
+    grid_id VARCHAR(10),
+    grid_x INTEGER NOT NULL,
+    grid_y INTEGER NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL
+);
 CREATE TABLE weather_forecast(
     id UUID NOT NULL PRIMARY KEY,
+    location_id UUID NOT NULL REFERENCES location(id),
     description VARCHAR,
-    rainQuantity FLOAT,
-    rainPercentage FLOAT(1)
+    rain_quantity FLOAT,
+    percent_rain_chance FLOAT(1),
+    date_time DATE
 );
 
 CREATE TABLE users (
@@ -14,24 +24,14 @@ CREATE TABLE users (
     password VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE location(
-    id UUID NOT NULL PRIMARY KEY,
-    weather_forecast_id UUID NOT NULL REFERENCES weather_forecast(id),
-    gridId VARCHAR(10),
-    gridX INTEGER NOT NULL,
-    gridY INTEGER NOT NULL,
-    longitude DOUBLE PRECISION NOT NULL,
-    latitude DOUBLE PRECISION NOT NULL
-);
-
 CREATE TABLE address(
     id UUID NOT NULL PRIMARY KEY,
     location_id UUID NOT NULL REFERENCES location(id),
-    addressLine1 VARCHAR NOT NULL,
-    addressLine2 VARCHAR,
+    address_line1 VARCHAR NOT NULL,
+    address_line2 VARCHAR,
     city VARCHAR NOT NULL,
     state CHAR(2) NOT NULL,
-    postalCode VARCHAR(10) NOT NULL
+    postal_code VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE project (

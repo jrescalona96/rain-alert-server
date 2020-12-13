@@ -15,7 +15,7 @@ public class ProjectsService {
     private final IProjectsDoa projectsDoa;
 
     @Autowired
-    public ProjectsService(@Qualifier("InMemoryProjects") IProjectsDoa projectsDoa) {
+    public ProjectsService(@Qualifier("postgresProjectsDb") IProjectsDoa projectsDoa) {
         this.projectsDoa = projectsDoa;
     }
 
@@ -43,6 +43,10 @@ public class ProjectsService {
      */
     public Project getProjectById(UUID id) {
         return projectsDoa.selectProjectById(id).orElse(null);
+    }
+
+    public List<Project> getAllProjectByUserId(UUID id) {
+        return projectsDoa.selectProjectsByUserId(id);
     }
 
     /**

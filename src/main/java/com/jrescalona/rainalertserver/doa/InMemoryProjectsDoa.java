@@ -53,6 +53,11 @@ public class InMemoryProjectsDoa implements IProjectsDoa {
         return DB;
     }
 
+    @Override
+    public List<Project> selectProjectsByUserId(UUID userId) {
+        return null;
+    }
+
     /**
      * Invokes selectProjectById()
      * Replaces project with new Project with same id if found

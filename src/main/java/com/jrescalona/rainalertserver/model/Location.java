@@ -7,11 +7,30 @@ public class Location {
     private final String gridId;
     private final String gridX;
     private final String gridY;
-    private final String longitude;
-    private final String latitude;
+    private final double longitude;
+    private final double latitude;
 
-    public Location(UUID id, String gridId, String gridX, String gridY, String longitude, String latitude) {
+    public Location(
+            UUID id,
+            String gridId,
+            String gridX,
+            String gridY,
+            double longitude,
+            double latitude) {
         this.id = id;
+        this.gridId = gridId;
+        this.gridX = gridX;
+        this.gridY = gridY;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    public Location(
+            String gridId,
+            String gridX,
+            String gridY,
+            double longitude,
+            double latitude) {
         this.gridId = gridId;
         this.gridX = gridX;
         this.gridY = gridY;
@@ -39,11 +58,11 @@ public class Location {
         return gridY;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 

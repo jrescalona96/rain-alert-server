@@ -9,7 +9,7 @@ public class Address {
     private final String addressLine1;
     private final String addressLine2;
     private final String city;
-    private final USState state;
+    private final String state;
     private final String postalCode;
     private final Location location;
 
@@ -17,10 +17,24 @@ public class Address {
                    String addressLine1,
                    String addressLine2,
                    String city,
-                   USState state,
+                   String state,
                    String postalCode,
                    Location location) {
         this.id = id;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.location = location;
+    }
+
+    public Address(String addressLine1,
+                   String addressLine2,
+                   String city,
+                   String state,
+                   String postalCode,
+                   Location location) {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
@@ -49,7 +63,7 @@ public class Address {
         return city;
     }
 
-    public USState getState() {
+    public String getState() {
         return state;
     }
 

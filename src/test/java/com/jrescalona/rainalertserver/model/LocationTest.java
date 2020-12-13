@@ -12,14 +12,14 @@ class LocationTest {
     String gridId = "LOX";
     String gridX = "123";
     String gridY = "45";
-    String longitude = "34.0589";
-    String latitude = "-117.8194";
+    double longitude = 34.0589;
+    double latitude = -117.8194;
 
 
     Location l1 = new Location(id, gridId, gridX, gridY, longitude, latitude);
     Location l2 = new Location(id, gridId, gridX, gridY, longitude, latitude);
     Location l3 = new Location(UUID.randomUUID(), gridId, gridX, gridY, longitude, latitude);
-    Location l4 = new Location(UUID.randomUUID(), "MAD", "401",  "60", "35.1234", "-113.1923");
+    Location l4 = new Location(UUID.randomUUID(), "MAD", "401",  "60", 35.1234, -113.1923);
 
     @Test
     void getId() {
