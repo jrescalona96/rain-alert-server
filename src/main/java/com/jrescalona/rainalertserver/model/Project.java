@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Project {
     private UUID id;
-
+    private UUID userId;
     @NotNull
     private final String name;
     private final String description;
@@ -18,15 +18,45 @@ public class Project {
             @JsonProperty("projectId") UUID id,
             @JsonProperty("projectName") String name,
             @JsonProperty("projectDescription") String description,
-            @JsonProperty("projectAddress") Address address) {
+            @JsonProperty("projectAddress") Address address,
+            @JsonProperty("userId") UUID userId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.userId = userId;
+    }
+
+    public Project(
+            @JsonProperty("projectName") String name,
+            @JsonProperty("projectDescription") String description,
+            @JsonProperty("projectAddress") Address address,
+            @JsonProperty("userId") UUID userId) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.userId = userId;
+    }
+
+    public Project(
+            @JsonProperty("projectId") UUID id,
+            @JsonProperty("projectName") String name,
+            @JsonProperty("projectDescription") String description,
+            @JsonProperty("projectAddress") Address address
+            ) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
     }
 
+
     public UUID getId() {
         return id;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public void setId(UUID id) {

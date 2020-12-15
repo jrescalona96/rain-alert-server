@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
-import static com.jrescalona.rainalertserver.model.USState.CA;
-import static com.jrescalona.rainalertserver.model.USState.CO;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjectsServiceTest {
@@ -60,10 +58,8 @@ class ProjectsServiceTest {
     }
 
     @Test
-    void addProjectShouldAddOneNewProject() {
-        int res = projectsService.addProject(p1);
+    void addProjectShouldAddOneNewProjectWillSucceed() {
         assertEquals(1, projectsService.getAllProjects().size());
-        assertEquals(0, res);
     }
 
     @Test

@@ -1,8 +1,11 @@
 package com.jrescalona.rainalertserver.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Location {
+public class Location implements Serializable {
     private UUID id;
     private final String gridId;
     private final int gridX;
@@ -11,12 +14,12 @@ public class Location {
     private final double latitude;
 
     public Location(
-            UUID id,
-            String gridId,
-            int gridX,
-            int gridY,
-            double longitude,
-            double latitude) {
+            @JsonProperty UUID id,
+            @JsonProperty("gridId")  String gridId,
+            @JsonProperty("gridX")  int gridX,
+            @JsonProperty("gridY")  int gridY,
+            @JsonProperty("longitude")  double longitude,
+            @JsonProperty("latitude")  double latitude) {
         this.id = id;
         this.gridId = gridId;
         this.gridX = gridX;
@@ -26,11 +29,11 @@ public class Location {
     }
 
     public Location(
-            String gridId,
-            int gridX,
-            int gridY,
-            double longitude,
-            double latitude) {
+            @JsonProperty("gridId") String gridId,
+            @JsonProperty("gridX") int gridX,
+            @JsonProperty("gridY") int gridY,
+            @JsonProperty("longitude") double longitude,
+            @JsonProperty("latitude") double latitude) {
         this.gridId = gridId;
         this.gridX = gridX;
         this.gridY = gridY;

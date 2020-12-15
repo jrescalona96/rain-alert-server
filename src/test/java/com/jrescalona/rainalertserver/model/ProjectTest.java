@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static com.jrescalona.rainalertserver.model.USState.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProjectTest {

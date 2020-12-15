@@ -1,10 +1,11 @@
 package com.jrescalona.rainalertserver.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Address {
-
-
+public class Address implements Serializable {
     private UUID id;
     private final String addressLine1;
     private final String addressLine2;
@@ -14,12 +15,12 @@ public class Address {
     private final Location location;
 
     public Address(UUID id,
-                   String addressLine1,
-                   String addressLine2,
-                   String city,
-                   String state,
-                   String postalCode,
-                   Location location) {
+                   @JsonProperty("addressLine1") String addressLine1,
+                   @JsonProperty("addressLine2") String addressLine2,
+                   @JsonProperty("city") String city,
+                   @JsonProperty("state") String state,
+                   @JsonProperty("postalCode") String postalCode,
+                   @JsonProperty("location") Location location) {
         this.id = id;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
@@ -29,12 +30,12 @@ public class Address {
         this.location = location;
     }
 
-    public Address(String addressLine1,
-                   String addressLine2,
-                   String city,
-                   String state,
-                   String postalCode,
-                   Location location) {
+    public Address(@JsonProperty("addressLine1") String addressLine1,
+                   @JsonProperty("addressLine2") String addressLine2,
+                   @JsonProperty("city") String city,
+                   @JsonProperty("state") String state,
+                   @JsonProperty("postalCode") String postalCode,
+                   @JsonProperty("location") Location location) {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;

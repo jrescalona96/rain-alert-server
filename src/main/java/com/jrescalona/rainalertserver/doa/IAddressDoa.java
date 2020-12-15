@@ -18,10 +18,9 @@ public interface IAddressDoa {
         UUID addressId = UUID.randomUUID();
         return insertAddress(addressId, address);
     };
-
     int insertAddress(UUID id, Address address);
     Optional<Address> selectAddressById(UUID id);
-    List<Address> selectAllAddressesByUserId(UUID id);
+    List<Address> selectAllAddresses();
     int updateAddressById(UUID id, Address address);
     int deleteAddressById(UUID id);
 }

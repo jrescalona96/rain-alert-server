@@ -2,7 +2,7 @@ package com.jrescalona.rainalertserver.mapper;
 
 import com.jrescalona.rainalertserver.model.*;
 import org.springframework.jdbc.core.RowMapper;
-import com.jrescalona.rainalertserver.model.USState.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;

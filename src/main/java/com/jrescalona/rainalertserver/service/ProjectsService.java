@@ -15,17 +15,16 @@ public class ProjectsService {
     private final IProjectsDoa projectsDoa;
 
     @Autowired
-    public ProjectsService(@Qualifier("postgresProjectsDb") IProjectsDoa projectsDoa) {
+    public ProjectsService(@Qualifier("PostgresProjectDoa") IProjectsDoa projectsDoa) {
         this.projectsDoa = projectsDoa;
     }
 
     /**
      * Adds a new project
      * @param project Project
-     * @return 0 if successful, 1 otherwise
      */
-    public int addProject(Project project) {
-      return  projectsDoa.insertProject(project);
+    public void addProject(Project project) throws RuntimeException {
+      projectsDoa.insertProject(project);
     }
 
     /**

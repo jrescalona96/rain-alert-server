@@ -14,12 +14,12 @@ public interface IProjectsDoa {
      * @param project Project
      * @return 0 if successful, 1 otherwise
      */
-    default int insertProject(Project project) {
+    default void insertProject(Project project) {
         UUID projectId = UUID.randomUUID();
-        return insertProject(projectId, project);
+        insertProject(projectId, project);
     }
 
-    int insertProject(UUID projectId, Project project);
+    void insertProject(UUID projectId, Project project);
     Optional<Project> selectProjectById(UUID projectId);
     List<Project> selectAllProjects();
     List<Project> selectAllProjectsByUserId(UUID userId);

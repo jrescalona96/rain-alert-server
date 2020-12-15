@@ -22,15 +22,17 @@ public class InMemoryProjectsDoa implements IProjectsDoa {
      * Appends project to projects
      * @param projectId UUID
      * @param project Project
-     * @return 0
      */
     @Override
-    public int insertProject(UUID projectId, Project project) {
-        project.setId(projectId);
-        project.getAddress().setId(UUID.randomUUID());
-        project.getAddress().getLocation().setId(UUID.randomUUID());
-        DB.add(project);
-        return 0;
+    public void insertProject(UUID projectId, Project project) {
+        try {
+            project.setId(projectId);
+            project.getAddress().setId(UUID.randomUUID());
+            project.getAddress().getLocation().setId(UUID.randomUUID());
+            DB.add(project);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     /**
