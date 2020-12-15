@@ -52,7 +52,6 @@ class ProjectsServiceTest {
                             "45",
                             34.6758,
                             -117.3721)));
-
     ProjectsService projectsService;
 
     @BeforeEach

@@ -21,6 +21,7 @@ public interface IProjectsDoa {
 
     int insertProject(UUID projectId, Project project);
     Optional<Project> selectProjectById(UUID projectId);
+    List<Project> selectAllProjects();
     List<Project> selectProjectsByUserId(UUID userId);
     int updateProjectById(UUID projectId,Project project);
     int deleteProjectById(UUID projectId);

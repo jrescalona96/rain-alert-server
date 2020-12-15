@@ -45,8 +45,13 @@ public class ProjectsService {
         return projectsDoa.selectProjectById(id).orElse(null);
     }
 
-    public List<Project> getAllProjectByUserId(UUID id) {
-        return projectsDoa.selectProjectsByUserId(id);
+    /**
+     * Gets all projects associated with a user
+     * @param userId UUID
+     * @return List<Project>
+     */
+    public List<Project> getAllProjectByUserId(UUID userId) {
+        return projectsDoa.selectProjectsByUserId(userId);
     }
 
     /**

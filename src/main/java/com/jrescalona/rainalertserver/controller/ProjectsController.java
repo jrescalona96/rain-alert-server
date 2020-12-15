@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("api/v1/projects")
 @RestController
+@RequestMapping("api/v1/projects/{userId}")
 public class ProjectsController {
     private final ProjectsService projectsService;
 
@@ -18,34 +18,51 @@ public class ProjectsController {
         this.projectsService = projectsService;
     }
 
+    /**
+     * Add New Project
+     * @param project new project to be added
+     */
     @PostMapping
     public void addProject(@RequestBody Project project) {
         projectsService.addProject(project);
     }
 
-    @GetMapping
-    public List<Project> getAllProjects() {
-        return projectsService.getAllProjects();
+    /**
+     * Get single project
+     * @param id projectId
+     * @return Project
+     */
+    @GetMapping(path = "{projectId}")
+    public Project getProjectById(@PathVariable("projectId") UUID id) {
+        return projectsService.getProjectById(id);
     }
 
-//    @GetMapping(path = "{projectId}")
-//    public Project getProjectById(@PathVariable("projectId") UUID id) {
-//        return projectsService.getProjectById(id);
-//    }
-
-    @GetMapping(path = "{userId}")
-    public List<Project> getAllProjectsById(@PathVariable("userId") UUID id) {
-        System.out.println(id.toString());
+    /**
+     * Get all projects associated with a user
+     * @param id user's id
+     * @return List<Project>
+     */
+    @GetMapping
+    public List<Project> getAllProjectsByUserId(@PathVariable("userId") UUID id) {
         return projectsService.getAllProjectByUserId(id);
     }
 
-    @PostMapping(path = "{id}")
-    public void updateProjectById(@PathVariable("id") UUID id, @RequestBody Project project) {
+    /**
+     * Update a single project
+     * @param id id of project to be updated
+     * @param project updated project
+     */
+    @PostMapping(path = "{projectId}")
+    public void updateProjectById(@PathVariable("projectId") UUID id, @RequestBody Project project) {
         projectsService.updateProjectById(id, project);
     }
 
-    @DeleteMapping(path = "{id}")
-    public void deleteProjectById(@PathVariable("id") UUID id) {
+    /**
+     * Delete a single project
+     * @param id id of project to be deleted
+     */
+    @DeleteMapping(path = "{projectId}")
+    public void deleteProjectById(@PathVariable("projectId") UUID id) {
         projectsService.deleteProjectById(id);
     }
 }

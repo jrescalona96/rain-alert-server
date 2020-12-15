@@ -31,6 +31,11 @@ public class PostgresProjectService implements IProjectsDoa {
     }
 
     @Override
+    public List<Project> selectAllProjects() {
+        return null;
+    }
+
+    @Override
     public List<Project> selectProjectsByUserId(UUID userId) {
         String sql = "SELECT p.id as project_id," +
                     "p.name," +
