@@ -51,7 +51,7 @@ public class ProjectsService {
      * @return List<Project>
      */
     public List<Project> getAllProjectByUserId(UUID userId) {
-        return projectsDoa.selectProjectsByUserId(userId);
+        return projectsDoa.selectAllProjectsByUserId(userId);
     }
 
     /**

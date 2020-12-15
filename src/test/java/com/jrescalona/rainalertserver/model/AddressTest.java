@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class AddressTest {
 
     String gridId  = "LOX";
-    String gridX = "432";
-    String gridY = "10";
+    int gridX = 432;
+    int gridY = 10;
     double longitude = 34.0589;
     double latitude = -117.8194;
     UUID locationGridId = UUID.randomUUID();

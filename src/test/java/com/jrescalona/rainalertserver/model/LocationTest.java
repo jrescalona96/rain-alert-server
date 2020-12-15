@@ -10,8 +10,8 @@ class LocationTest {
 
     UUID id = UUID.randomUUID();
     String gridId = "LOX";
-    String gridX = "123";
-    String gridY = "45";
+    int gridX = 123;
+    int gridY = 45;
     double longitude = 34.0589;
     double latitude = -117.8194;
 
@@ -19,7 +19,7 @@ class LocationTest {
     Location l1 = new Location(id, gridId, gridX, gridY, longitude, latitude);
     Location l2 = new Location(id, gridId, gridX, gridY, longitude, latitude);
     Location l3 = new Location(UUID.randomUUID(), gridId, gridX, gridY, longitude, latitude);
-    Location l4 = new Location(UUID.randomUUID(), "MAD", "401",  "60", 35.1234, -113.1923);
+    Location l4 = new Location(UUID.randomUUID(), "MAD", 401,  60, 35.1234, -113.1923);
 
     @Test
     void getId() {

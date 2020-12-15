@@ -29,8 +29,8 @@ class ProjectsServiceTest {
                     new Location(
                             UUID.randomUUID(),
                             "LOX",
-                            "801",
-                            "45",
+                            801,
+                            45,
                             34.6758,
                             -117.3721 )));
 
@@ -48,8 +48,8 @@ class ProjectsServiceTest {
                     new Location(
                             UUID.randomUUID(),
                             "LOX",
-                            "801",
-                            "45",
+                            801,
+                            45,
                             34.6758,
                             -117.3721)));
     ProjectsService projectsService;

@@ -54,7 +54,7 @@ public class InMemoryProjectsDoa implements IProjectsDoa {
     }
 
     @Override
-    public List<Project> selectProjectsByUserId(UUID userId) {
+    public List<Project> selectAllProjectsByUserId(UUID userId) {
         return null;
     }
 

@@ -5,16 +5,16 @@ import java.util.UUID;
 public class Location {
     private UUID id;
     private final String gridId;
-    private final String gridX;
-    private final String gridY;
+    private final int gridX;
+    private final int gridY;
     private final double longitude;
     private final double latitude;
 
     public Location(
             UUID id,
             String gridId,
-            String gridX,
-            String gridY,
+            int gridX,
+            int gridY,
             double longitude,
             double latitude) {
         this.id = id;
@@ -27,8 +27,8 @@ public class Location {
 
     public Location(
             String gridId,
-            String gridX,
-            String gridY,
+            int gridX,
+            int gridY,
             double longitude,
             double latitude) {
         this.gridId = gridId;
@@ -50,11 +50,11 @@ public class Location {
         return gridId;
     }
 
-    public String getGridX() {
+    public int getGridX() {
         return gridX;
     }
 
-    public String getGridY() {
+    public int getGridY() {
         return gridY;
     }
 
@@ -73,8 +73,8 @@ public class Location {
      */
     public boolean equals(Location location) {
         return gridId.equals(location.getGridId())
-                && gridX.equals(location.getGridX())
-                && gridY.equals(location.getGridY());
+                && gridX == location.getGridX()
+                && gridY == location.getGridY();
     }
 
 }

@@ -18,12 +18,13 @@ public class ProjectMapper implements RowMapper<Project> {
         String description = resultSet.getString("description");
 
         // Address results
+        UUID addressId = (UUID)resultSet.getObject("address_id");
         String addressLine1 = resultSet.getString("address_line1");
         String addressLine2 = resultSet.getString("address_line2");
         String city = resultSet.getString("city");
         String state = resultSet.getString("state");
         String postalCode = resultSet.getString("postal_code");
-        Address address = new Address(addressLine1, addressLine2, city, state, postalCode, null);
+        Address address = new Address(addressId, addressLine1, addressLine2, city, state, postalCode, null);
 
         return new Project(projectId, name, description, address);
     }

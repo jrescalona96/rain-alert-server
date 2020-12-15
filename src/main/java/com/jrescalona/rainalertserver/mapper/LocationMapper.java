@@ -12,8 +12,8 @@ public class LocationMapper implements RowMapper<Location> {
     public Location mapRow(ResultSet resultSet, int i) throws SQLException {
         UUID id = (UUID) resultSet.getObject("id");
         String gridID = resultSet.getString("gridId");
-        String gridX = resultSet.getString("gridX");
-        String gridY = resultSet.getString("gridY");
+        int gridX = resultSet.getInt("gridX");
+        int gridY = resultSet.getInt("gridY");
         double longitude = resultSet.getDouble("longitude");
         double latitude = resultSet.getDouble("latitude");
         return new Location(id, gridID, gridX, gridY, longitude, latitude);
