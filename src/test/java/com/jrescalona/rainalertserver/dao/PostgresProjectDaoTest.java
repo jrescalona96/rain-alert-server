@@ -6,25 +6,30 @@ import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
 import com.jrescalona.rainalertserver.model.Project;
 import com.jrescalona.rainalertserver.model.User;
-import com.jrescalona.rainalertserver.service.ProjectsService;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class PostgresProjectServiceTest {
+class PostgresProjectDaoTest {
 
-    ProjectsService ps;
-    JdbcTemplate jdbcTemplate;
+    PostgresProjectDao projectDao;
+    // connect to db
+    JdbcTemplate jdbcTemplate = new JdbcTemplate(
+            DataSourceBuilder
+                    .create()
+                    .type(HikariDataSource.class)
+                    .url("jdbc:postgresql://localhost:5432/rain_alert_db_test")
+                    .username("postgres")
+                    .password("dbfortesting")
+                    .build()
+    );
 
     User u1 = new User(UUID.randomUUID(), "John", "Escalona", "PM", "johnrichmondescalona@gmail.com", "test1");
     User u2 = new User(UUID.randomUUID(), "Jo Ann", "Cacho", "PM", "joann@yahoo.com", "test2");
@@ -41,27 +46,18 @@ class PostgresProjectServiceTest {
     Project p3 = new Project(UUID.randomUUID(),"Cross-group heuristic focus group","Object-based fault-tolerant Graphic Interface", a3);
     Project p4 = new Project(UUID.randomUUID(),"NEW PROJECT TO BE ADDED/DELETED","Describing the new project that was added/removed", a4);
 
-    List<Project> projects = new ArrayList<Project>(Arrays.asList(p1,p2,p3));
-    List<Address> addresses = new ArrayList<Address>(Arrays.asList(a1,a2,a3));
-    List<User> users = new ArrayList<User>(Arrays.asList(u1,u2));
-    List<Location> locations  = new ArrayList<Location>(Arrays.asList(l1,l2,l3));
+    List<Project> projects = new ArrayList<>(Arrays.asList(p1,p2,p3));
+    List<Address> addresses = new ArrayList<>(Arrays.asList(a1,a2,a3));
+    List<User> users = new ArrayList<>(Arrays.asList(u1,u2));
+    List<Location> locations  = new ArrayList<>(Arrays.asList(l1,l2,l3));
+
 
     @BeforeEach
     void setUp() {
-        // connect to db
-        DataSource dataSource = DataSourceBuilder
-                .create()
-                .type(HikariDataSource.class)
-                .url("jdbc:postgresql://localhost:5432/rain_alert_db_test")
-                .username("postgres")
-                .password("dbfortesting")
-                .build();
-
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
         PostgresLocationDao locationDao = new PostgresLocationDao(jdbcTemplate);
         PostgresAddressDao addressDao = new PostgresAddressDao(jdbcTemplate, locationDao);
-        PostgresProjectDao projectDao = new PostgresProjectDao(jdbcTemplate, addressDao);
-        ps = new ProjectsService(projectDao);
+        projectDao = new PostgresProjectDao(jdbcTemplate, addressDao);
+
 
         // insert users
         for (User u : users) {
@@ -150,8 +146,8 @@ class PostgresProjectServiceTest {
 
     @Test
     void insertProjectShouldInsertProject() {
-        ps.addProject(p4);
-        Project p  = ps.getProjectById(p4.getId());
+        projectDao.insertProject(p4);
+        Project p  = projectDao.selectProjectById(p4.getId()).orElse(null);
         assertNotNull(p);
         assertEquals(p4.getId(), p.getId());
     }
@@ -159,20 +155,20 @@ class PostgresProjectServiceTest {
     @Test
     void selectProjectByIdShouldHaveTheCorrectProjectId() {
         UUID expectedId = p1.getId();
-        Project result = ps.getProjectById(expectedId);
+        Project result = projectDao.selectProjectById(expectedId).orElse(null);
         assertTrue(result.equals(p1));
     }
 
     @Test
     void selectAllProjectsShouldReturnThreeProjects() {
-        List<Project> results = ps.getAllProjects();
+        List<Project> results = projectDao.selectAllProjects();
         assertEquals(3, results.size());
     }
 
     @Test
     void selectProjectsByUserIdShouldReturnTwoProjects() {
         UUID userId = u1.getId();
-        List<Project> results = ps.getAllProjectByUserId(userId);
+        List<Project> results = projectDao.selectAllProjectsByUserId(userId);
         assertEquals(2, results.size());
         assertEquals(p1.getId(), results.get(0).getId());
         assertEquals(p2.getId(), results.get(1).getId());
@@ -181,33 +177,33 @@ class PostgresProjectServiceTest {
     @Test
     void updateProjectByIdShouldUpdateProjectName() {
         Project update = new Project(p1.getId(),"UPDATED NAME",p1.getDescription(), p1.getAddress());
-        ps.updateProjectById(p1.getId(), update);
-        Project p1Updated = ps.getProjectById(p1.getId());
+        projectDao.updateProjectById(p1.getId(), update);
+        Project p1Updated = projectDao.selectProjectById(p1.getId()).orElse(null);
         assertNotEquals(p1.getName(), p1Updated.getName());
     }
 
     @Test
     void updateProjectByIdShouldUpdateProjectDescription() {
         Project update = new Project(p1.getId(),p1.getName(),"UPDATED DESCRIPTION", p1.getAddress());
-        ps.updateProjectById(p1.getId(), update);
-        Project p1Updated = ps.getProjectById(p1.getId());
+        projectDao.updateProjectById(p1.getId(), update);
+        Project p1Updated = projectDao.selectProjectById(p1.getId()).orElse(null);
         assertNotEquals(p1.getDescription(), p1Updated.getDescription());
     }
 
     @Test
     void deleteProjectByIdShouldDeleteProject() {
-        ps.deleteProjectById(p1.getId());
-        assertNull(ps.getProjectById(p1.getId()));
+        projectDao.deleteProjectById(p1.getId());
+        assertNull(projectDao.selectProjectById(p1.getId()));
     }
 
     @Test
     void deleteProjectByIdShouldNotDeleteAnyProject() {
-        ps.deleteProjectById(UUID.randomUUID());
-        assertEquals(3, ps.getAllProjects().size());
+        projectDao.deleteProjectById(UUID.randomUUID());
+        assertEquals(3, projectDao.selectAllProjects().size());
     }
 
     void printAll() {
-        List<Project> projects = ps.getAllProjects();
+        List<Project> projects = projectDao.selectAllProjects();
         for (Project p : projects) {
             System.out.println("\n================================================================");
             System.out.println("Printing results:");

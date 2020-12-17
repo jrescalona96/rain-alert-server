@@ -1,5 +1,6 @@
 package com.jrescalona.rainalertserver.dao;
 
+import com.jrescalona.rainalertserver.mapper.LocationMapper;
 import com.jrescalona.rainalertserver.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ public class PostgresLocationDao implements ILocationDao {
 
     @Override
     public int insertLocation(UUID id, Location location) {
-        String sql = "INSERT INTO location(id, grid_id, grid_x, grid_y, longitude, latitude)" +
+        final String  INSERT_SQL= "INSERT INTO location(id, grid_id, grid_x, grid_y, longitude, latitude)" +
                         "VALUES(" +
                         "'" + id + "'," +
                         "'" + location.getGridId() + "'," +
@@ -29,13 +30,15 @@ public class PostgresLocationDao implements ILocationDao {
                             location.getLongitude() + "," +
                             location.getLatitude() +
                         ")";
-        jdbcTemplate.execute(sql);
+        jdbcTemplate.execute(INSERT_SQL);
         return 0;
     }
 
     @Override
     public Optional<Location> selectLocationById(UUID id) {
-        return Optional.empty();
+        final String SELECT_SQL = "SELECT * FROM location WHERE id = ?";
+        Location location = jdbcTemplate.queryForObject(SELECT_SQL, new LocationMapper(), id);
+        return Optional.ofNullable(location);
     }
 
     @Override
