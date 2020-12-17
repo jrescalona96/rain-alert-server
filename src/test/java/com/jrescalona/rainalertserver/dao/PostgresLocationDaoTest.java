@@ -1,5 +1,6 @@
 package com.jrescalona.rainalertserver.dao;
 
+import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.AfterEach;
@@ -89,7 +90,7 @@ class PostgresLocationDaoTest {
         UUID locationId = l1.getId();
         Location updateLocation = new Location(null, "LOL", 10, 1, l1.getLongitude(), l1.getLatitude());
 
-        locationDao.updateLocationById(l1.getId(), updateLocation);
+        locationDao.updateLocationById(locationId, updateLocation);
 
         Location result = locationDao.selectLocationById(locationId).orElse(null);
         assertNotNull(result);
@@ -112,10 +113,17 @@ class PostgresLocationDaoTest {
     }
 
     @Test
-    void deleteLocationById() {
+    void deleteLocationByIdShouldDeleteLocation() {
         UUID locationId = l2.getId();
         locationDao.deleteLocationById(locationId);
         Location location = locationDao.selectLocationById(locationId).orElse(null);
         assertNull(location);
+    }
+
+    @Test
+    void deleteAddressByIdShouldNotDeleteAnyAddress() {
+        locationDao.deleteLocationById(UUID.randomUUID());
+        List<Location> results = locationDao.selectAllLocations();
+        assertEquals(3, results.size());
     }
 }
