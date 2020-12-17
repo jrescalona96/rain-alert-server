@@ -5,6 +5,7 @@ import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -59,7 +60,7 @@ public class PostgresProjectDao implements IProjectsDao {
      * @return Project if project exists, null otherwise
      */
     @Override
-    public Optional<Project> selectProjectById(UUID id) {
+    public Optional<Project> selectProjectById(UUID id) throws EmptyResultDataAccessException{
         final String SQL = "SELECT " +
                             "p.id as project_id," +
                             "p.name," +
@@ -74,6 +75,7 @@ public class PostgresProjectDao implements IProjectsDao {
                         "\nJOIN address a" +
                         "\nON a.id = p.address_id" +
                         "\nWHERE p.id = ?";
+
         Project foundProject = jdbcTemplate.queryForObject(SQL, new ProjectMapper(), id);
         return Optional.ofNullable(foundProject);
     }
@@ -149,7 +151,7 @@ public class PostgresProjectDao implements IProjectsDao {
      */
     @Override
     public int deleteProjectById (UUID id) {
-        String sql = "DELETE FROM project WHERE id = ? CASCADE";
+        String sql = "DELETE FROM project CASCADE WHERE id = ?";
         jdbcTemplate.update(sql, id);
         return 0;
     }

@@ -41,6 +41,14 @@ public class Location implements Serializable {
         this.latitude = latitude;
     }
 
+    public Location() {
+        gridId = null;
+        gridX = 0;
+        gridY = 0;
+        longitude = 0;
+        latitude = 0;
+    }
+
     public UUID getId() {
         return id;
     }

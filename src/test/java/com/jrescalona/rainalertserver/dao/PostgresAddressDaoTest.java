@@ -52,10 +52,10 @@ class PostgresAddressDaoTest {
                     "VALUES(" +
                     "'" + l.getId() + "'," +
                     "'" + l.getGridId() + "'," +
-                    "'" + l.getGridX() + "'," +
-                    "'" + l.getGridY()+ "'," +
-                    "'" + l.getLongitude() + "'," +
-                    "'" + l.getLatitude() + "'" +
+                        l.getGridX() + "," +
+                        l.getGridY()+ "," +
+                        l.getLongitude() + "," +
+                        l.getLatitude() +
                     ")";
             jdbcTemplate.execute(sql);
         }

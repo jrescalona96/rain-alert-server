@@ -3,17 +3,16 @@ package com.jrescalona.rainalertserver.dao;
 import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
 import com.zaxxer.hikari.HikariDataSource;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,10 +46,10 @@ class PostgresLocationDaoTest {
                     "VALUES(" +
                     "'" + l.getId() + "'," +
                     "'" + l.getGridId() + "'," +
-                    "'" + l.getGridX() + "'," +
-                    "'" + l.getGridY()+ "'," +
-                    "'" + l.getLongitude() + "'," +
-                    "'" + l.getLatitude() + "'" +
+                    l.getGridX() + "," +
+                    l.getGridY()+ "," +
+                    l.getLongitude() + "," +
+                    l.getLatitude() +
                     ")";
             jdbcTemplate.execute(sql);
         }
@@ -116,8 +115,7 @@ class PostgresLocationDaoTest {
     void deleteLocationByIdShouldDeleteLocation() {
         UUID locationId = l2.getId();
         locationDao.deleteLocationById(locationId);
-        Location location = locationDao.selectLocationById(locationId).orElse(null);
-        assertNull(location);
+        assertThrows(EmptyResultDataAccessException.class, () -> locationDao.selectLocationById(locationId).orElse(null));
     }
 
     @Test

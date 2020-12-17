@@ -10,7 +10,7 @@ import java.util.UUID;
 public class UserMapper implements RowMapper<User> {
     @Override
     public User mapRow(ResultSet resultSet, int i) throws SQLException {
-        UUID id = (UUID) resultSet.getObject("id");
+        UUID id = (UUID) resultSet.getObject("user_id");
         String fName = resultSet.getString("f_name");
         String lName = resultSet.getString("l_name");
         String role = resultSet.getString("role");
