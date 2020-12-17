@@ -16,6 +16,7 @@ public class LocationMapper implements RowMapper<Location> {
         int gridY = resultSet.getInt("gridY");
         double longitude = resultSet.getDouble("longitude");
         double latitude = resultSet.getDouble("latitude");
+
         return new Location(id, gridID, gridX, gridY, longitude, latitude);
     }
 }

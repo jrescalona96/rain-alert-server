@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,21 +37,19 @@ public class PostgresProjectDoa implements IProjectsDoa {
     @Override
     public void insertProject(UUID id, Project project) throws RuntimeException {
         try {
-            // set project id
-            project.setId(id);
             // create address id
             // TODO: store new address to database if new
             UUID addressId = UUID.randomUUID();
             addressDoa.insertAddress(addressId, project.getAddress());
-            String sql = "INSERT INTO project(id, user_id, name, description, address_id)" +
-                        "VALUES(" +
-                        "'" + id + "'," +
-                        "'" + project.getUserId() + "'," +
-                        "'" + project.getName() + "'," +
-                        "'" + project.getDescription() + "'," +
-                        "'" + addressId + "'" +
-                        ")";
-            jdbcTemplate.execute(sql);
+            final String SQL = "INSERT INTO project(id, user_id, name, description, address_id)" +
+                                "VALUES(" +
+                                "'" + id + "'," +
+                                "'" + project.getUserId() + "'," +
+                                "'" + project.getName() + "'," +
+                                "'" + project.getDescription() + "'," +
+                                "'" + addressId + "'" +
+                                ")";
+            jdbcTemplate.execute(SQL);
         } catch (RuntimeException e) {
             System.err.println(e.getMessage());
             throw e;
@@ -63,23 +63,24 @@ public class PostgresProjectDoa implements IProjectsDoa {
      */
     @Override
     public Optional<Project> selectProjectById(UUID id) {
-        String sql = "SELECT " +
-                        "p.id as project_id," +
-                        "p.name," +
-                        "p.description," +
-                        "a.id as address_id," +
-                        "a.address_line1," +
-                        "a.address_line2," +
-                        "a.city," +
-                        "a.state," +
-                        "a.postal_code\n" +
-                    "FROM project p\n" +
-                    "JOIN address a\n" +
-                    "ON a.id = p.address_id\n" +
-                    "WHERE p.id = ?";
-        Project foundProject = jdbcTemplate.queryForObject(sql, new ProjectMapper(), id);
+        final String SQL = "SELECT " +
+                            "p.id as project_id," +
+                            "p.name," +
+                            "p.description," +
+                            "a.id as address_id," +
+                            "a.address_line1," +
+                            "a.address_line2," +
+                            "a.city," +
+                            "a.state," +
+                            "a.postal_code" +
+                        "\nFROM project p" +
+                        "\nJOIN address a" +
+                        "\nON a.id = p.address_id" +
+                        "\nWHERE p.id = ?";
+        Project foundProject = jdbcTemplate.queryForObject(SQL, new ProjectMapper(), id);
         return Optional.ofNullable(foundProject);
     }
+
     /**
      * Returns all projects in the database
      * Do not expose to the public
@@ -88,7 +89,7 @@ public class PostgresProjectDoa implements IProjectsDoa {
      */
     @Override
     public List<Project> selectAllProjects() {
-        String sql = "SELECT p.id as project_id," +
+        final String SQL = "SELECT p.id as project_id," +
                         "p.name," +
                         "p.description," +
                         "a.id as address_id," +
@@ -96,11 +97,11 @@ public class PostgresProjectDoa implements IProjectsDoa {
                         "a.address_line2," +
                         "a.city," +
                         "a.state," +
-                        "a.postal_code\n" +
-                    "FROM project p\n" +
-                    "JOIN address a\n" +
-                    "ON a.id = p.address_id";
-        return jdbcTemplate.query(sql, new ProjectMapper());
+                        "a.postal_code" +
+                    "\nFROM project p" +
+                    "\nJOIN address a" +
+                    "\nON a.id = p.address_id";
+        return jdbcTemplate.query(SQL, new ProjectMapper());
     }
 
     /**
@@ -111,25 +112,48 @@ public class PostgresProjectDoa implements IProjectsDoa {
     @Override
     public List<Project> selectAllProjectsByUserId(UUID id) {
         // Get list of project ids associated with user
-        String sql = "SELECT id FROM project WHERE user_id = ?";
-        List<UUID> projectIds = jdbcTemplate.query(sql, (resultSet, i) -> UUID.fromString(resultSet.getString("id")) ,id);
+        final String SQL = "SELECT id FROM project WHERE user_id = ?";
+        List<UUID> projectIds = jdbcTemplate.query(SQL, (resultSet, i) -> UUID.fromString(resultSet.getString("id")) ,id);
 
         // Add projects
         List<Project> projects = new ArrayList<>();
-        for (UUID uuid : projectIds)
-            selectProjectById(uuid)
-                    .ifPresent(projects::add);
+        for (UUID uuid : projectIds) {
+            selectProjectById(uuid).ifPresent(projects::add);
+        }
 
         return projects;
     }
 
+    /**
+     * Update a project using project id
+     * @param id project id
+     * @param updateProject new project details
+     * @return
+     */
     @Override
-    public int updateProjectById (UUID projectId, Project project){
-        return 0;
+    public int updateProjectById (UUID id, Project updateProject) {
+        Optional<Project> project = selectProjectById(id);
+        Optional<Address> address = addressDoa.selectAddressById( updateProject.getAddress().getId() );
+        if(project.isPresent()) {
+           final String SQL = "UPDATE project" +
+                    "SET name = '" + updateProject.getName() + "'" +
+                    "description = '" + updateProject.getDescription() + "'" +
+                    "WHERE id = ?";
+            jdbcTemplate.update(SQL, id);
+            return 0;
+        }
+        return 1;
     }
 
+    /**
+     * Delete one project
+     * @param id project id
+     * @return
+     */
     @Override
-    public int deleteProjectById (UUID projectId){
+    public int deleteProjectById (UUID id) {
+        String sql = "DELETE FROM project WHERE id = ? CASCADE";
+        jdbcTemplate.update(sql, id);
         return 0;
     }
 

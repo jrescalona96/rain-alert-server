@@ -1,6 +1,7 @@
 package com.jrescalona.rainalertserver.doa;
 
 
+import com.jrescalona.rainalertserver.mapper.AddressMapper;
 import com.jrescalona.rainalertserver.model.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,10 +33,9 @@ public class PostgresAddressDoa implements IAddressDoa{
     @Override
     public int insertAddress(UUID id, Address address) {
         // TODO: check if location is new
-        // generate new id for new location
         UUID locationId = UUID.randomUUID();
         locationDoa.insertLocation(locationId, address.getLocation());
-        String sql = "INSERT INTO address(id, address_line1, address_line2, city, state, postal_code, location_id)" +
+        final String SQL = "INSERT INTO address(id, address_line1, address_line2, city, state, postal_code, location_id)" +
                 " VALUES (" +
                 "'" + id + "'," +
                 "'" + address.getAddressLine1() + "'," +
@@ -45,13 +45,30 @@ public class PostgresAddressDoa implements IAddressDoa{
                 "'" + address.getPostalCode() + "'," +
                 "'" + locationId + "'" +
                 ")";
-        jdbcTemplate.execute(sql);
+        jdbcTemplate.execute(SQL);
         return 0;
     }
 
     @Override
     public Optional<Address> selectAddressById(UUID id) {
-        return Optional.empty();
+        final String SQL = "SELECT " +
+                        "a.id as address_id" +
+                        "a.address_line1, " +
+                        "a.address_line2, " +
+                        "a.city, " +
+                        "a.state," +
+                        "a.postal_code" +
+                        "l.id as location_id" +
+                        "l.grid_id" +
+                        "l.grid_x" +
+                        "l.grid_y" +
+                        "l.longitude" +
+                        "l.latitude" +
+                    "\nFROM address a" +
+                    "\nJOIN location l" +
+                    "\nON l.id = a.location_id";
+        Address address = jdbcTemplate.queryForObject(SQL, new AddressMapper(), id);
+        return Optional.ofNullable(address);
     }
 
     @Override
