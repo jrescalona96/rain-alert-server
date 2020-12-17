@@ -12,7 +12,7 @@ import java.util.UUID;
 public class AddressMapper implements RowMapper<Address> {
     @Override
     public Address mapRow(ResultSet resultSet, int i) throws SQLException {
-        // address mapping
+        // Address mapping
         UUID id = (UUID) resultSet.getObject("address_id");
         String addressLine1 = resultSet.getString("address_line1");
         String addressLine2 = resultSet.getString("address_line2");
@@ -20,15 +20,9 @@ public class AddressMapper implements RowMapper<Address> {
         String state = resultSet.getString("state");
         String postalCode = resultSet.getString("postal_code");
 
-        // location mapping
-        UUID locationId = UUID.fromString(resultSet.getString("location_id"));
-        String gridId = resultSet.getString("grid_id");
-        int gridX = resultSet.getInt("grid_x");
-        int gridY = resultSet.getInt("grid_y");
-        double longitude = resultSet.getDouble("longitude");
-        double latitude = resultSet.getDouble("latitude");
+        // Location Results
+        Location location = new LocationMapper().mapRow(resultSet, i);
 
-        return new Address(id, addressLine1, addressLine2, city, state, postalCode,
-                new Location( locationId, gridId, gridX, gridY, longitude, latitude));
+        return new Address(id, addressLine1, addressLine2, city, state, postalCode, location);
     }
 }

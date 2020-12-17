@@ -85,4 +85,15 @@ public class Project {
                 && description.equals(project.getDescription())
                 && address.equals(project.getAddress());
     }
+
+    @Override
+    public String toString() {
+        return "\nProject { " +
+                "id = " + id +
+                ", userId = " + userId +
+                ", name = '" + name + '\'' +
+                ", description = '" + description + '\'' +
+                ", address = " + address +
+                "}";
+    }
 }

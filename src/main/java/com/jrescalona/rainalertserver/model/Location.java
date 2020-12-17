@@ -77,7 +77,20 @@ public class Location implements Serializable {
     public boolean equals(Location location) {
         return gridId.equals(location.getGridId())
                 && gridX == location.getGridX()
-                && gridY == location.getGridY();
+                && gridY == location.getGridY()
+                && longitude == location.getLongitude()
+                && latitude == location.getLatitude();
     }
 
+    @Override
+    public String toString() {
+        return "\n Location { " +
+                "id = " + id +
+                ", gridId = '" + gridId + '\'' +
+                ", gridX = " + gridX +
+                ", gridY = " + gridY +
+                ", longitude = " + longitude +
+                ", latitude = " + latitude +
+                "}";
+    }
 }

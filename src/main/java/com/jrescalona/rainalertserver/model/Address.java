@@ -90,9 +90,17 @@ public class Address implements Serializable {
                 && location.equals(location);
     }
 
+    @Override
     public String toString() {
-        String street = String.format("%s, %s",addressLine1, addressLine2);
-        return String.format("%s, %s, %s %s", street, city, state, postalCode);
+        return "\n Address { " +
+                "id = " + id +
+                ", addressLine1 = '" + addressLine1 + '\'' +
+                ", addressLine2 = '" + addressLine2 + '\'' +
+                ", city = '" + city + '\'' +
+                ", state = '" + state + '\'' +
+                ", postalCode = '" + postalCode + '\'' +
+                ", location = " + location +
+                " }";
     }
 
 }
