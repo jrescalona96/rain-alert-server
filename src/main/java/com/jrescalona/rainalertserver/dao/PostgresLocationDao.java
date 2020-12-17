@@ -43,14 +43,29 @@ public class PostgresLocationDao implements ILocationDao {
      */
     @Override
     public Optional<Location> selectLocationById(UUID id) throws EmptyResultDataAccessException {
-        final String SELECT_SQL = "SELECT id as location_id, grid_id, grid_x, grid_y, longitude, latitude FROM location WHERE id = ?";
+        final String SELECT_SQL = "SELECT " +
+                                    "id as location_id, " +
+                                    "grid_id, " +
+                                    "grid_x, " +
+                                    "grid_y, " +
+                                    "longitude, " +
+                                    "latitude " +
+                                "FROM location " +
+                                "WHERE id = ?";
         Location location = jdbcTemplate.queryForObject(SELECT_SQL, new LocationMapper(), id);
         return Optional.ofNullable(location);
     }
 
     @Override
     public List<Location> selectAllLocations() {
-        final String SELECT_SQL = "SELECT id as location_id, grid_id, grid_x, grid_y, longitude, latitude FROM location";
+        final String SELECT_SQL = "SELECT " +
+                                    "id as location_id, " +
+                                    "grid_id, " +
+                                    "grid_x, " +
+                                    "grid_y, " +
+                                    "longitude, " +
+                                    "latitude " +
+                                "FROM location";
         return jdbcTemplate.query(SELECT_SQL, new LocationMapper());
 
     }
@@ -59,11 +74,11 @@ public class PostgresLocationDao implements ILocationDao {
     public int updateLocationById(UUID id, Location updateLocation) {
         final String UPDATE_SQL = "UPDATE location" +
                 "\nSET " +
-                "grid_id = '" + updateLocation.getGridId() + "'," +
-                "grid_x = " + updateLocation.getGridX() + "," +
-                "grid_y = " + updateLocation.getGridY() + "," +
-                "longitude = " + updateLocation.getLongitude() + "," +
-                "latitude = " + updateLocation.getLatitude() +
+                    "grid_id = '" + updateLocation.getGridId() + "'," +
+                    "grid_x = " + updateLocation.getGridX() + "," +
+                    "grid_y = " + updateLocation.getGridY() + "," +
+                    "longitude = " + updateLocation.getLongitude() + "," +
+                    "latitude = " + updateLocation.getLatitude() +
                 "\nWHERE id = ?";
         jdbcTemplate.update(UPDATE_SQL, id);
         return 0;
