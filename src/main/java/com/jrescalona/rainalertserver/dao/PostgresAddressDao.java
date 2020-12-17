@@ -1,4 +1,4 @@
-package com.jrescalona.rainalertserver.doa;
+package com.jrescalona.rainalertserver.dao;
 
 
 import com.jrescalona.rainalertserver.mapper.AddressMapper;
@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("PostgresAddressDoa")
-public class PostgresAddressDoa implements IAddressDoa{
+@Repository("PostgresAddressDao")
+public class PostgresAddressDao implements IAddressDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final ILocationDoa locationDoa;
+    private final ILocationDao locationDao;
 
     @Autowired
-    public PostgresAddressDoa(JdbcTemplate jdbcTemplate, @Qualifier("PostgresLocationDoa") ILocationDoa locationDoa) {
+    public PostgresAddressDao(JdbcTemplate jdbcTemplate, @Qualifier("PostgresLocationDao") ILocationDao locationDoa) {
         this.jdbcTemplate = jdbcTemplate;
-        this.locationDoa = locationDoa;
+        this.locationDao = locationDoa;
     }
 
     /**
@@ -34,7 +34,7 @@ public class PostgresAddressDoa implements IAddressDoa{
     public int insertAddress(UUID id, Address address) {
         // TODO: check if location is new
         UUID locationId = UUID.randomUUID();
-        locationDoa.insertLocation(locationId, address.getLocation());
+        locationDao.insertLocation(locationId, address.getLocation());
         final String SQL = "INSERT INTO address(id, address_line1, address_line2, city, state, postal_code, location_id)" +
                 " VALUES (" +
                 "'" + id + "'," +

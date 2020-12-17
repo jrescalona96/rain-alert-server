@@ -8,13 +8,15 @@ public class User {
     private final String lName;
     private final String role;
     private final String email;
+    private final String password;
 
-    public User(UUID id, String fName, String lName, String role, String email) {
+    public User(UUID id, String fName, String lName, String role, String email, String password) {
         this.id = id;
         this.fName = fName;
         this.lName = lName;
         this.role = role;
         this.email = email;
+        this.password = password;
     }
 
     public UUID getId() {
@@ -23,6 +25,10 @@ public class User {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getFName() {

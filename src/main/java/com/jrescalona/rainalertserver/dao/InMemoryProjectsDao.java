@@ -1,4 +1,4 @@
-package com.jrescalona.rainalertserver.doa;
+package com.jrescalona.rainalertserver.dao;
 
 import com.jrescalona.rainalertserver.model.Project;
 import org.springframework.stereotype.Repository;
@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository("InMemoryProjects")
-public class InMemoryProjectsDoa implements IProjectsDoa {
+public class InMemoryProjectsDao implements IProjectsDao {
 
     private final List<Project> DB;
 
-    public InMemoryProjectsDoa() {
+    public InMemoryProjectsDao() {
         DB = new ArrayList<>();
     }
 

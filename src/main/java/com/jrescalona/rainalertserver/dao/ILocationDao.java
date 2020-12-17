@@ -1,13 +1,12 @@
-package com.jrescalona.rainalertserver.doa;
+package com.jrescalona.rainalertserver.dao;
 
 import com.jrescalona.rainalertserver.model.Location;
-import com.jrescalona.rainalertserver.model.Project;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ILocationDoa {
+public interface ILocationDao {
     /**
      * Creates a random UUID
      * then inserts new location using UUID

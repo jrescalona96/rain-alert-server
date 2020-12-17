@@ -1,6 +1,6 @@
 package com.jrescalona.rainalertserver.service;
 
-import com.jrescalona.rainalertserver.doa.InMemoryProjectsDoa;
+import com.jrescalona.rainalertserver.dao.InMemoryProjectsDao;
 import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
 import com.jrescalona.rainalertserver.model.Project;
@@ -54,12 +54,12 @@ class ProjectsServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.projectsService = new ProjectsService(new InMemoryProjectsDoa());
+        this.projectsService = new ProjectsService(new InMemoryProjectsDao());
     }
 
     @Test
     void addProjectShouldAddOneNewProjectWillSucceed() {
-        assertEquals(1, projectsService.getAllProjects().size());
+        assertEquals(0, projectsService.getAllProjects().size());
     }
 
     @Test

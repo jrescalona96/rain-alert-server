@@ -1,6 +1,6 @@
 package com.jrescalona.rainalertserver.service;
 
-import com.jrescalona.rainalertserver.doa.IProjectsDoa;
+import com.jrescalona.rainalertserver.dao.IProjectsDao;
 import com.jrescalona.rainalertserver.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,10 +12,10 @@ import java.util.UUID;
 @Service
 public class ProjectsService {
 
-    private final IProjectsDoa projectsDoa;
+    private final IProjectsDao projectsDoa;
 
     @Autowired
-    public ProjectsService(@Qualifier("PostgresProjectDoa") IProjectsDoa projectsDoa) {
+    public ProjectsService(@Qualifier("PostgresProjectDao") IProjectsDao projectsDoa) {
         this.projectsDoa = projectsDoa;
     }
 

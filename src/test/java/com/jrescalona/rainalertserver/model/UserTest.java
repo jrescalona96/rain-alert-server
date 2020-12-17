@@ -14,11 +14,12 @@ class UserTest {
     String lName = "Escalona";
     String role = "ADMIN";
     String email = "johnrichmondescalona@gmail.com";
+    String password = "testing";
     User user;
 
     @BeforeEach
     void setUp() {
-        this.user  = new User(userId, fName, lName, role, email);
+        this.user  = new User(userId, fName, lName, role, email, password);
     }
 
     @Test
@@ -31,6 +32,11 @@ class UserTest {
         UUID newId = UUID.randomUUID();
         user.setId(newId);
         assertEquals(newId, user.getId());
+    }
+
+    @Test
+    void getPassword() {
+        assertEquals(password, user.getPassword());
     }
 
     @Test

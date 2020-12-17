@@ -1,4 +1,4 @@
-package com.jrescalona.rainalertserver.doa;
+package com.jrescalona.rainalertserver.dao;
 
 import com.jrescalona.rainalertserver.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("PostgresLocationDoa")
-public class PostgresLocationDoa implements ILocationDoa {
+@Repository("PostgresLocationDao")
+public class PostgresLocationDao implements ILocationDao {
     public final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PostgresLocationDoa(JdbcTemplate jdbcTemplate) {
+    public PostgresLocationDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

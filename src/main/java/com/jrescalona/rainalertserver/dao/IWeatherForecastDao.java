@@ -1,4 +1,4 @@
-package com.jrescalona.rainalertserver.doa;
+package com.jrescalona.rainalertserver.dao;
 
 import com.jrescalona.rainalertserver.model.WeatherForecast;
 
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IWeatherForecastDoa {
+public interface IWeatherForecastDao {
     /**
      * Creates a random UUID
      * then inserts new weatherForecast using UUID
