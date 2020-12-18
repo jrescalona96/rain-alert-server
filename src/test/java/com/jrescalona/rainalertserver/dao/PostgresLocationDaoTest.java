@@ -1,34 +1,22 @@
 package com.jrescalona.rainalertserver.dao;
 
-import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
-import com.zaxxer.hikari.HikariDataSource;
-import org.checkerframework.checker.nullness.Opt;
+import com.jrescalona.rainalertserver.PostgresTestDatabaseInitializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PostgresLocationDaoTest {
 
-    PostgresLocationDao locationDao;
     // connect to db
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(
-            DataSourceBuilder
-                .create()
-                .type(HikariDataSource.class)
-                .url("jdbc:postgresql://localhost:5432/rain_alert_db_test")
-                .username("postgres")
-                .password("dbfortesting")
-                .build()
-    );
+    JdbcTemplate jdbcTemplate = new PostgresTestDatabaseInitializer().getJdbcTemplate();
+    ILocationDao locationDao = new PostgresLocationDao(jdbcTemplate);
 
     Location l1 = new Location(UUID.randomUUID(), "DAS", 48, 8, -261.253486, -196.207582);
     Location l2 = new Location(UUID.randomUUID(), "UED", 93, 51, 355.769283, -234.434096);
@@ -39,7 +27,6 @@ class PostgresLocationDaoTest {
     @BeforeEach
     void setUp() {
         locationDao = new PostgresLocationDao(jdbcTemplate);
-
         // Populate location table
         for (Location l : locations) {
             String sql = "INSERT INTO location(id, grid_id, grid_x, grid_y, longitude, latitude) " +
@@ -109,6 +96,11 @@ class PostgresLocationDaoTest {
         assertNotNull(result);
         assertNotEquals(l1.getLongitude(), result.getLongitude());
         assertNotEquals(l1.getLatitude(), result.getLatitude());
+    }
+
+    @Test
+    void selectAllLocationsByValuesShouldReturnOne() {
+        assertEquals(1, locationDao.selectAllLocationsByValues(l1).size());
     }
 
     @Test

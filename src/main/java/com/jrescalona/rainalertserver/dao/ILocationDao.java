@@ -21,6 +21,8 @@ public interface ILocationDao {
     int insertLocation(UUID id, Location location);
     Optional<Location> selectLocationById(UUID id);
     List<Location> selectAllLocations();
+    List<Location> selectAllLocationsByValues(Location location);
     int updateLocationById(UUID id, Location location);
     int deleteLocationById(UUID id);
+    boolean isExisting(Location location);
 }

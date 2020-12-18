@@ -35,17 +35,17 @@ public class PostgresAddressDao implements IAddressDao {
         // TODO: check if location is new
         UUID locationId = UUID.randomUUID();
         locationDao.insertLocation(locationId, address.getLocation());
-        final String SQL = "INSERT INTO address(id, address_line1, address_line2, city, state, postal_code, location_id)" +
-                " VALUES (" +
-                "'" + id + "'," +
-                "'" + address.getAddressLine1() + "'," +
-                "'" + address.getAddressLine2() + "'," +
-                "'" + address.getCity() + "'," +
-                "'" + address.getState() + "'," +
-                "'" + address.getPostalCode() + "'," +
-                "'" + locationId + "'" +
-                ")";
-        jdbcTemplate.execute(SQL);
+        final String INSERT_SQL = "INSERT INTO address(id, address_line1, address_line2, city, state, postal_code, location_id)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(
+                INSERT_SQL,
+                locationId,
+                address.getAddressLine1(),
+                address.getAddressLine2(),
+                address.getCity(),
+                address.getState(),
+                address.getPostalCode(),
+                locationId);
         return 0;
     }
 
@@ -58,12 +58,6 @@ public class PostgresAddressDao implements IAddressDao {
                         "a.city, " +
                         "a.state," +
                         "a.postal_code" +
-                        "l.id as location_id" +
-                        "l.grid_id" +
-                        "l.grid_x" +
-                        "l.grid_y" +
-                        "l.longitude" +
-                        "l.latitude" +
                     "\nFROM address a" +
                     "\nJOIN location l" +
                     "\nON l.id = a.location_id";

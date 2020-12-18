@@ -39,15 +39,22 @@ public class PostgresProjectDao implements IProjectsDao {
             // TODO: store new address to database if new
             UUID addressId = UUID.randomUUID();
             addressDao.insertAddress(addressId, project.getAddress());
-            final String SQL = "INSERT INTO project(id, user_id, name, description, address_id)" +
-                                "VALUES(" +
-                                "'" + id + "'," +
-                                "'" + project.getUserId() + "'," +
-                                "'" + project.getName() + "'," +
-                                "'" + project.getDescription() + "'," +
-                                "'" + addressId + "'" +
-                                ")";
-            jdbcTemplate.execute(SQL);
+            final String INSERT_SQL = "INSERT INTO project(" +
+                        "id, " +
+                        "user_id, " +
+                        "name, " +
+                        "description, " +
+                        "address_id) " +
+                    "VALUES(?, ?, ?, ?, ?)";
+
+            jdbcTemplate.update(
+                    INSERT_SQL,
+                    id,
+                    project.getUserId(),
+                    project.getName(),
+                    project.getDescription(),
+                    addressId );
+
         } catch (RuntimeException e) {
             System.err.println(e.getMessage());
             throw e;
@@ -119,7 +126,6 @@ public class PostgresProjectDao implements IProjectsDao {
         for (UUID uuid : projectIds) {
             selectProjectById(uuid).ifPresent(projects::add);
         }
-
         return projects;
     }
 
@@ -127,18 +133,22 @@ public class PostgresProjectDao implements IProjectsDao {
      * Update a project using project id
      * @param id project id
      * @param updateProject new project details
-     * @return
+     * @return 0
      */
     @Override
     public int updateProjectById (UUID id, Project updateProject) {
         Optional<Project> project = selectProjectById(id);
         Optional<Address> address = addressDao.selectAddressById( updateProject.getAddress().getId() );
         if(project.isPresent()) {
-           final String SQL = "UPDATE project" +
-                    "SET name = '" + updateProject.getName() + "'" +
-                    "description = '" + updateProject.getDescription() + "'" +
+           final String UPDATE_SQL = "UPDATE project" +
+                    "SET name = ?" +
+                    "description = ?" +
                     "WHERE id = ?";
-            jdbcTemplate.update(SQL, id);
+            jdbcTemplate.update(
+                    UPDATE_SQL,
+                    updateProject.getDescription(),
+                    updateProject.getName(),
+                    id );
             return 0;
         }
         return 1;
@@ -147,7 +157,7 @@ public class PostgresProjectDao implements IProjectsDao {
     /**
      * Delete one project
      * @param id project id
-     * @return
+     * @return 0
      */
     @Override
     public int deleteProjectById (UUID id) {

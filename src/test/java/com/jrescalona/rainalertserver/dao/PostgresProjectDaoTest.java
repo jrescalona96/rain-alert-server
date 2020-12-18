@@ -1,6 +1,7 @@
 
 package com.jrescalona.rainalertserver.dao;
 
+import com.jrescalona.rainalertserver.PostgresTestDatabaseInitializer;
 import com.jrescalona.rainalertserver.datasource.PostgresDataSource;
 import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
@@ -19,17 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PostgresProjectDaoTest {
 
-    PostgresProjectDao projectDao;
-    // connect to db
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(
-            DataSourceBuilder
-                    .create()
-                    .type(HikariDataSource.class)
-                    .url("jdbc:postgresql://localhost:5432/rain_alert_db_test")
-                    .username("postgres")
-                    .password("dbfortesting")
-                    .build()
-    );
+
+
+    JdbcTemplate jdbcTemplate = new PostgresTestDatabaseInitializer().getJdbcTemplate();
+    PostgresProjectDao projectDao = new PostgresProjectDao(
+                                        jdbcTemplate, new PostgresAddressDao(
+                                                jdbcTemplate, new PostgresLocationDao(jdbcTemplate)));
 
     User u1 = new User(UUID.randomUUID(), "John", "Escalona", "PM", "johnrichmondescalona@gmail.com", "test1");
     User u2 = new User(UUID.randomUUID(), "Jo Ann", "Cacho", "PM", "joann@yahoo.com", "test2");

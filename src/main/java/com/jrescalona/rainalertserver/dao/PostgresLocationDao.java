@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,17 +22,24 @@ public class PostgresLocationDao implements ILocationDao {
     }
 
     @Override
-    public int insertLocation(UUID id, Location location) {
-        final String  INSERT_SQL= "INSERT INTO location(id, grid_id, grid_x, grid_y, longitude, latitude)" +
-                        "VALUES(" +
-                        "'" + id + "'," +
-                        "'" + location.getGridId() + "'," +
-                            location.getGridX() + "," +
-                            location.getGridY() + "," +
-                            location.getLongitude() + "," +
-                            location.getLatitude() +
-                        ")";
-        jdbcTemplate.execute(INSERT_SQL);
+    public int insertLocation(UUID locationId, Location location) {
+        final String INSERT_SQL = "INSERT INTO location(" +
+                                        "id, " +
+                                        "grid_id, " +
+                                        "grid_x, " +
+                                        "grid_y, " +
+                                        "longitude, " +
+                                        "latitude) " +
+                                    "VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(
+                INSERT_SQL,
+                locationId,
+                location.getGridId(),
+                location.getGridX(),
+                location.getGridY(),
+                location.getLongitude(),
+                location.getLatitude());
+
         return 0;
     }
 
@@ -71,16 +79,48 @@ public class PostgresLocationDao implements ILocationDao {
     }
 
     @Override
+    public List<Location> selectAllLocationsByValues(Location location) {
+        final String FIND_SQL = "SELECT id FROM location " +
+                "WHERE " +
+                    "grid_id = ?"+
+                    "\nAND grid_x = ?" +
+                    "\nAND grid_y = ?" +
+                    "\nAND longitude = ?" +
+                    "\nAND latitude = ?";
+        List<Location> locations = new ArrayList<>();
+        List<UUID> ids = jdbcTemplate.query(
+                FIND_SQL,
+                (resultSet, i) -> UUID.fromString(resultSet.getString("id")),
+                location.getGridId(),
+                location.getGridX(),
+                location.getGridY(),
+                location.getLongitude(),
+                location.getLatitude());
+        for(UUID id : ids) {
+            locations.add(selectLocationById(id).orElse(null));
+        }
+
+        return locations;
+    }
+
+    @Override
     public int updateLocationById(UUID id, Location updateLocation) {
-        final String UPDATE_SQL = "UPDATE location" +
-                "\nSET " +
-                    "grid_id = '" + updateLocation.getGridId() + "'," +
-                    "grid_x = " + updateLocation.getGridX() + "," +
-                    "grid_y = " + updateLocation.getGridY() + "," +
-                    "longitude = " + updateLocation.getLongitude() + "," +
-                    "latitude = " + updateLocation.getLatitude() +
-                "\nWHERE id = ?";
-        jdbcTemplate.update(UPDATE_SQL, id);
+        final String UPDATE_SQL = "UPDATE location " +
+                "SET " +
+                    "grid_id = ?, "+
+                    "grid_x = ?, " +
+                    "grid_y = ? ," +
+                    "longitude = ? ," +
+                    "latitude = ? " +
+                "WHERE id = ?";
+        jdbcTemplate.update(
+                UPDATE_SQL,
+                updateLocation.getGridId(),
+                updateLocation.getGridX(),
+                updateLocation.getGridY(),
+                updateLocation.getLongitude(),
+                updateLocation.getLatitude(),
+                id);
         return 0;
     }
 
@@ -89,5 +129,11 @@ public class PostgresLocationDao implements ILocationDao {
         final String DELETE_SQL = "DELETE FROM location CASCADE WHERE id = ? ";
         jdbcTemplate.update(DELETE_SQL, id);
         return 0;
+    }
+
+    @Override
+    public boolean isExisting(Location location) {
+        List<Location> locations = selectAllLocationsByValues(location);
+        return locations.size() > 0;
     }
 }

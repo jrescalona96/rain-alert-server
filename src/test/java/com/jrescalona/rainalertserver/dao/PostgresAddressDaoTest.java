@@ -1,5 +1,6 @@
 package com.jrescalona.rainalertserver.dao;
 
+import com.jrescalona.rainalertserver.PostgresTestDatabaseInitializer;
 import com.jrescalona.rainalertserver.model.Address;
 import com.jrescalona.rainalertserver.model.Location;
 import com.zaxxer.hikari.HikariDataSource;
@@ -9,37 +10,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PostgresAddressDaoTest {
-    PostgresAddressDao addressDao;
+
     // connect to db
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(
-            DataSourceBuilder
-                    .create()
-                    .type(HikariDataSource.class)
-                    .url("jdbc:postgresql://localhost:5432/rain_alert_db_test")
-                    .username("postgres")
-                    .password("dbfortesting")
-                    .build()
-    );
+    JdbcTemplate jdbcTemplate = new PostgresTestDatabaseInitializer().getJdbcTemplate();
+    IAddressDao addressDao = new PostgresAddressDao(jdbcTemplate, new PostgresLocationDao(jdbcTemplate));
 
     Location l1 = new Location(UUID.randomUUID(), "DAS", 48, 8, -261.253486, -196.207582);
     Location l2 = new Location(UUID.randomUUID(), "UED", 93, 51, 355.769283, -234.434096);
     Location l3 = new Location(UUID.randomUUID(), "CCL", 55, 10, -185.751602, 349.972757);
     Location l4 = new Location(UUID.randomUUID(), "USA", 1, 1, -200.000000, 500.000000);
-    Address a1 = new Address(UUID.randomUUID(),"33243 Vahlen Drive", null,"Clearwater", "FL", "33763", l1);
-    Address a2 = new Address(UUID.randomUUID(),"19733 Katie Crossing", null,"New Orleans", "LA", "70187", l2);
-    Address a3 = new Address(UUID.randomUUID(),"96301 Twin Pines Road", null,"Milwaukee", "WI", "53277", l3);
-    Address a4 = new Address(UUID.randomUUID(),"1111 Single Pine2 Road", "Apt. N","Los Angeles", "CA", "90045", l3);
+    Address a1 = new Address(UUID.randomUUID(), "33243 Vahlen Drive", null, "Clearwater", "FL", "33763", l1);
+    Address a2 = new Address(UUID.randomUUID(), "19733 Katie Crossing", null, "New Orleans", "LA", "70187", l2);
+    Address a3 = new Address(UUID.randomUUID(), "96301 Twin Pines Road", null, "Milwaukee", "WI", "53277", l3);
+    Address a4 = new Address(UUID.randomUUID(), "1111 Single Pine2 Road", "Apt. N", "Los Angeles", "CA", "90045", l3);
 
-    List<Address> addresses = new ArrayList<>(Arrays.asList(a1,a2,a3));
-    List<Location> locations  = new ArrayList<>(Arrays.asList(l1,l2,l3));
+    List<Address> addresses = new ArrayList<>(Arrays.asList(a1, a2, a3));
+    List<Location> locations = new ArrayList<>(Arrays.asList(l1, l2, l3));
 
     @BeforeEach
     void setUp() {
@@ -52,10 +43,10 @@ class PostgresAddressDaoTest {
                     "VALUES(" +
                     "'" + l.getId() + "'," +
                     "'" + l.getGridId() + "'," +
-                        l.getGridX() + "," +
-                        l.getGridY()+ "," +
-                        l.getLongitude() + "," +
-                        l.getLatitude() +
+                    l.getGridX() + "," +
+                    l.getGridY() + "," +
+                    l.getLongitude() + "," +
+                    l.getLatitude() +
                     ")";
             jdbcTemplate.execute(sql);
         }
@@ -171,7 +162,7 @@ class PostgresAddressDaoTest {
     @Test
     void updateAddressByIdShouldHaveDifferentPostalCode() {
         UUID addressId = a1.getId();
-        Address updateAddress = new Address(null, a1.getAddressLine1(), a1.getAddressLine2(), a1.getCity(), a1.getState(),"000000", a1.getLocation());
+        Address updateAddress = new Address(null, a1.getAddressLine1(), a1.getAddressLine2(), a1.getCity(), a1.getState(), "000000", a1.getLocation());
 
         addressDao.updateAddressById(addressId, updateAddress);
 
@@ -187,7 +178,7 @@ class PostgresAddressDaoTest {
     @Test
     void updateAddressByIdShouldHaveDifferentLocation() {
         UUID addressId = a1.getId();
-        Address updateAddress = new Address(null, a1.getAddressLine1(), a1.getAddressLine2(), a1.getCity(), a1.getState(),a1.getPostalCode(), l4);
+        Address updateAddress = new Address(null, a1.getAddressLine1(), a1.getAddressLine2(), a1.getCity(), a1.getState(), a1.getPostalCode(), l4);
 
         addressDao.updateAddressById(addressId, updateAddress);
 
